@@ -1,0 +1,62 @@
+# At a minimum address the items marked with TODO:
+#  * Fill in connector and connector_options
+#  * Review the property map
+#    - Ensure the 'external_name' matches the name of your CSV column,
+#      XML tag, etc.
+#    - Check that __key__ property is what you want. Its value will become
+#      the key name on import, and on export the value will be the Key
+#      object. If you would like automatic key generation on import and
+#      omitting the key on export, you can remove the entire __key__
+#      property from the property map.
+
+# If you have module(s) with your model classes, add them here. Also
+# change the kind properties to model_class.
+python_preamble:
+- import: google.appengine.ext.bulkload.transform
+- import: google.appengine.ext.db
+- import: re
+- import: base64
+
+transformers:
+- kind: Providers
+  connector: csv
+  connector_options:
+    columns: from_header
+    encoding: utf-8
+  property_map:
+    - property: pDomain
+      external_name: Domain
+      export_transform: transform.key_id_or_name_as_string
+          
+    - property: pType
+      external_name: Type
+      
+    - property: pAgency
+      external_name: Agency
+      
+    - property: pSite
+      external_name: Location
+      
+    - property: programName
+      external_name: Program_Na
+
+    - property: pAddress
+      external_name: Address
+ 
+    - property: pAddress2
+      external_name: Address2
+      
+    - property: pCity
+      external_name: City 
+      
+    - property: pState
+      external_name: State
+      
+    - property: pZip
+      external_name: Zip
+            
+    - property: pPhone
+      external_name: Phone_Numb
+            
+    - property: pEmail
+      external_name: Email
