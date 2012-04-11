@@ -15,3 +15,19 @@ class ExampleModel(db.Model):
     example_title = db.StringProperty(required=True)
     added_by = db.UserProperty()
     timestamp = db.DateTimeProperty(auto_now_add=True)
+
+class Providers(db.Model):
+	"""Provider Information DB"""
+	pDomain = db.StringProperty()
+	pType = db.StringProperty()
+	pAgency = db.StringProperty()
+	pSite = db.StringProperty()
+	progamName = db.StringProperty()
+	pAddress = db.StringProperty()
+	pAddress2 = db.StringProperty()
+	pCity = db.StringProperty()
+	pState = db.StringProperty()
+	pZip = db.StringProperty()
+	pPhone = db.StringProperty()
+	notes = db.StringProperty(default='')
+	owner = db.StringProperty()

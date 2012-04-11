@@ -25,6 +25,8 @@ app.add_url_rule('/hello/<username>', 'say_hello', view_func=views.say_hello)
 # Examples list page
 app.add_url_rule('/examples', 'list_examples', view_func=views.list_examples)
 
+app.add_url_rule('/providers', 'list_providers', view_func=views.list_providers)
+
 # Add new example via web form
 app.add_url_rule('/example/new', 'new_example', view_func=views.new_example, methods=['GET', 'POST'])
 

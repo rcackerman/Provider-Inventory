@@ -8,6 +8,7 @@
 *.project
 *.pydevproject
 *.kpf
+*.sql3
 
 # Don't store secret keys in version control
 secret_keys.py
