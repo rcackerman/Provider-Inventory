@@ -15,10 +15,23 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 from flask import render_template, flash, url_for, redirect
 
-from models import ExampleModel
+from models import ExampleModel, Providers
 from decorators import login_required, admin_required
-from forms import Providers
+from forms import ExampleForm
 
+def list_provs():
+    provs = Providers.all()
+    for prov in provs:
+    	print prov.pAgency
+    return provs
+    
+def list_addresses(agency):
+	addrs = []
+	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
+	for addr in addresses:
+		addrs.append(prov.pAddress)
+	return addrs
+			
 
 def home():
     return redirect(url_for('list_examples'))
