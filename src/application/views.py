@@ -12,6 +12,8 @@ For example the *say_hello* handler, handling the URL route '/hello/<username>',
 
 from google.appengine.api import users
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
+from google.appengine.ext import db
+
 
 from flask import render_template, flash, url_for, redirect
 
@@ -29,8 +31,8 @@ def list_addresses(agency):
 	addrs = []
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
 	for addr in addresses:
-		addrs.append(prov.pAddress)
-	return addrs
+		addrs.append((addr.pAddress, addr.progamName))
+	return render_template('provider_address.html', addrs=addrs)
 			
 
 def home():
