@@ -22,7 +22,7 @@ class Providers(db.Model):
 	pType = db.StringProperty()
 	pAgency = db.StringProperty()
 	pSite = db.StringProperty()
-	progamName = db.StringProperty()
+	programName = db.StringProperty()
 	pAddress = db.StringProperty()
 	pAddress2 = db.StringProperty()
 	pCity = db.StringProperty()
