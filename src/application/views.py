@@ -22,17 +22,24 @@ from decorators import login_required, admin_required
 from forms import ExampleForm
 
 def list_provs():
+    providers = []
     provs = Providers.all()
     for prov in provs:
-    	print prov.pAgency
-    return provs
+    	providers.append(prov.pAgency)
+    return render_template('providers.html', providers=providers)
     
 def list_addresses(agency):
 	addrs = []
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
 	for addr in addresses:
-		addrs.append((addr.pAddress, addr.progamName))
-	return render_template('provider_address.html', addrs=addrs)
+	    addrs.append((addr.pAddress, addr.progamName))
+	grouped_addrs = {}
+	for elt in addrs: 
+		if elt[0] in grouped_addrs:
+			grouped_addrs[elt[0]].append(elt[1])
+	else:
+		grouped_addrs[elt[0]] = [elt[1]]
+	return render_template('provider_address.html', grouped_addrs=grouped_addrs)
 			
 
 def home():

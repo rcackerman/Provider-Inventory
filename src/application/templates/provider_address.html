@@ -15,12 +15,22 @@
 {% endwith %}
 <ul>
     <h1 id="">All Examples</h1>
-    {% for addr in addrs %}
-    <li>
-        {{addr}}<br />
-    </li>
-    {% else %}
-    <li>No providers yet</li>
+    {% for address, programs in grouped_addrs.iteritems() %}
+    	<p>{{address}}</p>
+    	<p>{{programs}}</p>
     {% endfor %}
+   <!-- <li>
+        {{address}}
+        {# for program in address.program #}
+        <li>{{program}}</li>
+        {# endfor #}
+    </li>
+    {# else #}
+    <li>No providers yet</li>
+    {# endfor #}
 </ul>
+<p>
+{{provs}}
+-->
+
 {% endblock %}

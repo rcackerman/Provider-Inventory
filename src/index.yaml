@@ -12,5 +12,10 @@ indexes:
 
 - kind: Providers
   properties:
+  - name: pAddress=
+  - name: pAgency
+
+- kind: Providers
+  properties:
   - name: pAgency
   - name: pAddress

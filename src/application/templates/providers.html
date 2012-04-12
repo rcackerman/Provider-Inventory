@@ -17,7 +17,7 @@
     <h1 id="">All Examples</h1>
     {% for provider in providers %}
     <li>
-        ID: {{ provider.pAgency }}<br />
+        <a href="/providers/{{ provider }}">{{ provider }}<br />
     </li>
     {% else %}
     <li>No providers yet</li>
