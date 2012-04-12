@@ -35,3 +35,25 @@ class Providers(db.Model):
 		return addrs
 		
 Providers.list_addresses()
+
+
+#Actually, what I should do is:
+# 	def list_addresses(provider - passed in by url rule):
+# 	    print providers
+# 		self.addrs = []
+# 		self.addresses = db.Query(Providers).filter('pAgency =', provider)
+# 		for addr in self.addresses:
+# 			addr = []
+#			figure out some way of adding {'address' : 'program'} to addr list
+#           find if there's a site name
+# 		return addrs
+
+# HTML
+# <li>{% for address in addresses %}
+# 		{{address}}
+# 		<li>{% for dictionary of programs %}
+# 			{{program}}
+# 			{% end for %}
+# 		</li>
+# 	</li>{%end for}
+		
