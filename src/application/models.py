@@ -33,3 +33,8 @@ class Providers(db.Model):
 	pNotes = db.TextProperty()
 	Owner = db.UserProperty()
 	
+class ProviderNotes(db.Model):
+	"""Provider Notes will be captured in this database"""
+	provider_name = db.StringProperty()
+	provider_notes = db.StringProperty()
+	

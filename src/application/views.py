@@ -15,27 +15,27 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 from google.appengine.ext import db
 
 
-from flask import render_template, flash, url_for, redirect
+from flask import render_template, flash, url_for, redirect, request, make_response
 
 from models import ExampleModel, Providers
 from decorators import login_required, admin_required
-from forms import ExampleForm
+from forms import ExampleForm, ProviderForm
 
 def list_provs():
-    providers = []
-    provs = Providers.all()
-    for prov in provs:
-    	if prov in providers:
-    		pass
-    	else:
-	    	providers.append(prov.pAgency)
-    return render_template('providers.html', providers=providers)
-    
+	providers = []
+	provs = Providers.all()
+	for prov in provs:
+		if prov in providers:
+			pass
+		else:
+			providers.append(prov.pAgency)
+	return render_template('providers.html', providers=providers)
+	
 def list_addresses(agency):
 	addrs = []
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
 	for addr in addresses:
-	    addrs.append((addr.pAddress, addr.programName))
+		addrs.append((addr.pAddress, addr.programName))
 	grouped_addrs = {}
 	for elt in addrs: 
 		if elt[0] in grouped_addrs:
@@ -43,53 +43,68 @@ def list_addresses(agency):
 		else:
 			grouped_addrs[elt[0]] = [elt[1]]
 	return render_template('provider_address.html', grouped_addrs=grouped_addrs)
-			
+
+#def site_name(agency):
+
+def add_notes():
+	form = ProviderForm()
+	if form.validate_on_submit():
+ 		notes = ProviderNotes(
+ 			provider_name = form.providerName.data,
+ 			provider_notes = form.providerNote.data)
+ 		flash(u'Example successfully saved.', 'success')
+ 		try:
+ 			notes.put()
+ 			return 'Worked'
+ 		except:
+	 		return redirect(url_for('list_provs'))
+	return render_template('provider_notes.html', form=form)
 
 def home():
-    return redirect(url_for('list_examples'))
+	return redirect(url_for('list_examples'))
 
 
 def say_hello(username):
-    """Contrived example to demonstrate Flask's url routing capabilities"""
-    return 'Hello %s' % username
+	"""Contrived example to demonstrate Flask's url routing capabilities"""
+	return 'Hello %s' % username
 
 
 def list_examples():
-    """List all examples"""
-    examples = ExampleModel.all()
-    return render_template('list_examples.html', examples=examples)
+	"""List all examples"""
+	examples = ExampleModel.all()
+	return render_template('list_examples.html', examples=examples)
 
 
 @login_required
 def new_example():
-    """Add a new example, detecting whether or not App Engine is in read-only mode."""
-    form = ExampleForm()
-    if form.validate_on_submit():
-        example = ExampleModel(
-                    example_id = form.example_id.data,
-                    example_title = form.example_title.data,
-                    added_by = users.get_current_user()
-                    )
-        try:
-            example.put()
-            flash(u'Example successfully saved.', 'success')
-            return redirect(url_for('list_examples'))
-        except CapabilityDisabledError:
-            flash(u'App Engine Datastore is currently in read-only mode.', 'failure')
-            return redirect(url_for('list_examples'))
-    return render_template('new_example.html', form=form)
+	"""Add a new example, detecting whether or not App Engine is in read-only mode."""
+	form = ExampleForm()
+	if form.validate_on_submit():
+		example = ExampleModel(
+					example_id = form.example_id.data,
+					example_title = form.example_title.data,
+					added_by = users.get_current_user()
+					)
+		try:
+			example.put()
+			flash(u'Example successfully saved.', 'success')
+			return redirect(url_for('list_examples'))
+		except CapabilityDisabledError:
+			flash(u'App Engine Datastore is currently in read-only mode.', 'failure')
+			return redirect(url_for('list_examples'))
+	return render_template('new_example.html', form=form)
 
 
 @admin_required
 def admin_only():
-    """This view requires an admin account"""
-    return 'Super-seekrit admin page.'
+	"""This view requires an admin account"""
+	return 'Super-seekrit admin page.'
 
 
 def warmup():
-    """App Engine warmup handler
-    See http://code.google.com/appengine/docs/python/config/appconfig.html#Warming_Requests
+	"""App Engine warmup handler
+	See http://code.google.com/appengine/docs/python/config/appconfig.html#Warming_Requests
 
-    """
-    return ''
+	"""
+	return ''
 

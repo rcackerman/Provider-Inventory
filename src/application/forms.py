@@ -15,3 +15,7 @@ from flaskext.wtf import validators
 class ExampleForm(wtf.Form):
     example_id = wtf.TextField('Example ID', validators=[validators.Required()])
     example_title = wtf.TextField('Example Title', validators=[validators.Required()])
+    
+class ProviderForm(wtf.Form):
+	providerName = wtf.TextField()
+	providerNote = wtf.TextAreaField('Add notes', validators=[validators.Required()])

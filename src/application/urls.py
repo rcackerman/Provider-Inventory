@@ -25,8 +25,8 @@ app.add_url_rule('/providers', 'list_provs', view_func=views.list_provs)
 # Individual provider information
 app.add_url_rule('/providers/<agency>', 'list_addresses', view_func=views.list_addresses)
 
-# Say hello
-app.add_url_rule('/hello/<username>', 'say_hello', view_func=views.say_hello)
+# Add notes
+app.add_url_rule('/providers/new', 'add_notes', view_func=views.add_notes, methods=['GET', 'POST'])
 
 # Examples list page
 app.add_url_rule('/examples', 'list_examples', view_func=views.list_examples)
