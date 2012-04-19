@@ -36,18 +36,12 @@ def list_addresses(agency):
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
 	for addr in addresses:
 		addrs.append((addr.pAddress, addr.programName))
-	grouped_addrs = {}
-	for elt in addrs: 
-		if elt[0] in grouped_addrs:
-			grouped_addrs[elt[0]].append(elt[1])
-		else:
-			grouped_addrs[elt[0]] = [elt[1]]
-	return render_template('provider_address.html', grouped_addrs=grouped_addrs)
+	return addrs
 
 #def site_name(agency):
 
-def add_notes():
-	form = ProviderForm()
+def add_notes(agency):
+	form = ProviderForm(request.args)
 	if form.validate_on_submit():
  		notes = ProviderNotes(
  			provider_name = form.providerName.data,
@@ -58,7 +52,7 @@ def add_notes():
  			return 'Worked'
  		except:
 	 		return redirect(url_for('list_provs'))
-	return render_template('provider_notes.html', form=form)
+	return render_template('provider_notes.html', form=form, addrs=list_addresses(agency))
 
 def home():
 	return redirect(url_for('list_examples'))
