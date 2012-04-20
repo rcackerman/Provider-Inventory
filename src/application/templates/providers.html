@@ -2,7 +2,6 @@
 
 {% block content %}
 <p>
-	<!--<a href="{{ url_for('list_examples') }}">List examples</a> | <a href="{{ url_for('new_example') }}">New example</a>-->
 </p>
 {% with messages = get_flashed_messages(with_categories=true) %}
 	{% if messages %}
@@ -17,7 +16,7 @@
     <h1 id="">All Examples</h1>
     {% for provider in providers %}
     <li>
-        <a href="/providers/{{ provider }}">{{ provider }}<br />
+        <a href="{{ url_for('add_notes', agency=provider) }}">{{ provider }}<br />
     </li>
     {% else %}
     <li>No providers yet</li>

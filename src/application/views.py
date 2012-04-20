@@ -21,6 +21,9 @@ from models import ExampleModel, Providers
 from decorators import login_required, admin_required
 from forms import ExampleForm, ProviderForm
 
+def home():
+	pass
+	
 def list_provs():
 	providers = []
 	provs = Providers.all()
@@ -37,7 +40,13 @@ def list_addresses(agency):
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
 	for addr in addresses:
 		addrs.append((addr.pAddress, addr.programName))
-	return addrs
+	grouped_addrs = {}
+	for elt in addrs: 
+		if elt[0] in grouped_addrs:
+			grouped_addrs[elt[0]].append(elt[1])
+		else:
+			grouped_addrs[elt[0]] = [elt[1]]
+	return grouped_addrs
 
 def add_notes(agency):
 	form = ProviderForm(request.args)
@@ -51,10 +60,7 @@ def add_notes(agency):
  			return redirect(url_for('list_provs'))
  		except:
 	 		return redirect(url_for('list_provs'))
-	return render_template('provider_notes.html', form=form, addrs=list_addresses(agency), pname=agency)
-
-def home():
-	return redirect(url_for('list_provs'))
+	return render_template('provider_notes.html', form=form, grouped_addrs=list_addresses(agency), pname=agency)
 
 
 def warmup():
