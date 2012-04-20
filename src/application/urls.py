@@ -28,17 +28,6 @@ app.add_url_rule('/providers', 'list_provs', view_func=views.list_provs)
 # Add notes
 app.add_url_rule('/providers/<agency>', 'add_notes', view_func=views.add_notes, methods=['GET', 'POST'])
 
-# Examples list page
-app.add_url_rule('/examples', 'list_examples', view_func=views.list_examples)
-
-# Add new example via web form
-app.add_url_rule('/example/new', 'new_example', view_func=views.new_example, methods=['GET', 'POST'])
-
-# Contrived admin-only view example
-app.add_url_rule('/admin_only', 'admin_only', view_func=views.admin_only)
-
-
-
 ## Error handlers
 # Handle 404 errors
 @app.errorhandler(404)
