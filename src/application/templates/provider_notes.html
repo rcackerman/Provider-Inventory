@@ -1,9 +1,23 @@
-<form method="post" action="{{ url_for('add_notes') }}">
-	{% for field in form %}
-		<p>{{ field.label }}</p>
-		<p>{{ field }}</p>
-	{% endfor %}
-	<p><button type="submit">Save notes</button>
-	<a href="{{ url_for('list_provs') }}">Cancel</a>
-	</p>
+
+<ul>
+ <h1 id="">Provider Information</h1>
+     {% for address in addrs %}
+     <p>{{address}}</p>
+        {% for prog in programs %}
+          {% if prog != '' %}
+           <li>{{prog}}</li>
+          {% endif %}
+        {% endfor %}
+     <p>&nbsp;</p>
+     {% endfor %}
+</ul>
+<form method="post" action="{{ url_for('add_notes', agency='') }}">
+{% for field in form %}
+        <p>{{ field.label }}</p>
+        <p>{{ field }}</p>
+{% endfor %}
+    <p>
+        <button type="submit">Save notes</button>
+    <a href="{{ url_for('list_provs') }}">Cancel</a>
+    </p>
 </form>

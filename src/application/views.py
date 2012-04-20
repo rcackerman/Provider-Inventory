@@ -31,6 +31,9 @@ def list_provs():
 			providers.append(prov.pAgency)
 	return render_template('providers.html', providers=providers)
 	
+def agency_name(agency):
+	pname = agency
+	
 def list_addresses(agency):
 	addrs = []
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
@@ -46,13 +49,13 @@ def add_notes(agency):
  		notes = ProviderNotes(
  			provider_name = form.providerName.data,
  			provider_notes = form.providerNote.data)
- 		flash(u'Example successfully saved.', 'success')
  		try:
  			notes.put()
- 			return 'Worked'
+ 			flash(u'Example successfully saved.', 'success')
+ 			return redirect(url_for('list_provs'))
  		except:
 	 		return redirect(url_for('list_provs'))
-	return render_template('provider_notes.html', form=form, addrs=list_addresses(agency))
+	return render_template('provider_notes.html', form=form, addrs=list_addresses(agency), pname=agency_name(agency))
 
 def home():
 	return redirect(url_for('list_examples'))
