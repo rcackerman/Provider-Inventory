@@ -17,5 +17,5 @@ class ExampleForm(wtf.Form):
     example_title = wtf.TextField('Example Title', validators=[validators.Required()])
     
 class ProviderForm(wtf.Form):
-	providerName = wtf.HiddenField(validators=[validators.Required()])
+	providerName = wtf.TextField('Name', validators=[validators.Required()])
 	providerNote = wtf.TextAreaField('Add notes', validators=[validators.Required()])
