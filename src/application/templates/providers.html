@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{{pname}} Details</title>
+    <title>Provider Inventory Survey Tool</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Provider inventory survey tool">
     <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
@@ -34,7 +34,7 @@
 			{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 					{% for category, message in messages %}
-						<span class="label">{{ message }}<span>
+						<span class="label">{{ message }}</span>
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
