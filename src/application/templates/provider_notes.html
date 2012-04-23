@@ -1,16 +1,21 @@
 
-<ul>
  <h1 id="">{{ pname }}</h1>
-    {% for address, programs in grouped_addrs.iteritems() %}
-    	<p>{{address}}</p>
-    		{% for prog in programs %}
-    			{% if prog != '' %}
-    	    		<li>{{prog}}</li>
-    	    	{% endif %}
-    	    {% endfor %}
-    	    <p>&nbsp;</p>
-    {% endfor %}
-</ul>
+
+<table>
+{% for address, prs in programs.iteritems() %}
+<tr>
+	<td colspan=3>{{address}}</td>
+</tr>
+{% for pr in prs %}
+<tr>
+	<td>{{ pr['name'] }}</td>
+	<td>{{ pr['type'] }}</td>
+	<td>{{ pr['phone'] }}</td>
+</tr>
+{% endfor %}
+{% endfor %}
+</table>
+
 
 <form method="post" action="{{ url_for('add_notes', agency=pname) }}">
 <p>{{pname}}</p>
