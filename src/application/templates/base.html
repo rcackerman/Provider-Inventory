@@ -27,19 +27,13 @@
       </div>
     </div>
     
-	<header>
-		<div id="hd">
-			{% block header %}<!-- header -->{% endblock %}
-		</div>
-	</header>
-	<div id="bd">
+    <div class="container-fluid">
+      <div class="row-fluid">
+       <div class="span12">
 		{% block content %}<!-- main content area -->{% endblock %}
+	   </div>
+	  </div>
 	</div>
-	<footer>
-		<div id="ft">
-			{% block footer %}<!-- footer -->{% endblock %}
-		</div>
-	</footer>
-	{% block tail_script %}<!-- Defer-capable JavaScript block -->{% endblock %}
+	
 </body>
 </html>

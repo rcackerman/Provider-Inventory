@@ -16,6 +16,10 @@ from google.appengine.ext import db
 
 
 from flask import render_template, flash, url_for, redirect, request, make_response
+from wtforms.ext.appengine.db import model_form
+from flaskext import wtf
+from flaskext.wtf import validators, Form
+
 
 from models import ExampleModel, Providers, ProviderNotes
 from decorators import login_required, admin_required
@@ -28,7 +32,7 @@ def list_provs():
 	owner = users.get_current_user()
 #	print owner
 	providers = []
-	provs = Providers.all()
+	provs = Providers.all().order('pAgency')
 	for prov in provs:
 		if prov.pAgency in providers:
 			pass
@@ -57,20 +61,42 @@ def list_notes(agency):
 		notes.append(note.provider_notes)
 	return notes
 
-@login_required
 def add_notes(agency):
-	form = ProviderForm()
-	if form.validate_on_submit():
- 		notes = ProviderNotes(
- 			provider_name = agency,
- 			provider_notes = form.providerNote.data)
- 		try:
- 			notes.put()
- 			flash(u'Example successfully saved.', 'success')
- 			return redirect(url_for('list_provs'))
- 		except:
-	 		return redirect(url_for('list_provs'))
+ 	MyForm = model_form(ProviderNotes, Form)
+ 	entity = db.Query(ProviderNotes).filter('provider_name =', agency).get()
+ 	if entity != None:
+		form = MyForm(request.form, obj=entity)
+		if form.validate_on_submit():
+			form.populate_obj(entity)
+			entity.put()
+			flash(u'Example successfully saved.', 'success')
+			return redirect(url_for('list_provs'))
+	else:
+		form = MyForm(request.form)
+		if form.validate_on_submit():
+			notes = ProviderNotes(
+				provider_name=agency,
+				provider_notes=form.provider_notes.data)
+			notes.put()
+			flash(u'Example successfully saved.', 'success')
+			return redirect(url_for('list_provs'))
 	return render_template('provider_notes.html', form=form, programs=list_addresses(agency), pname=agency, notes=list_notes(agency))
+
+
+# @login_required
+# def add_notes(agency):
+# 	form = ProviderForm()
+# 	if form.validate_on_submit():
+#  		notes = ProviderNotes(
+#  			provider_name = agency,
+#  			provider_notes = form.providerNote.data)
+#  		try:
+#  			notes.put()
+#  			flash(u'Example successfully saved.', 'success')
+#  			return redirect(url_for('list_provs'))
+#  		except:
+# 	 		return redirect(url_for('list_provs'))
+# 	return render_template('provider_notes.html', form=form, programs=list_addresses(agency), pname=agency, notes=list_notes(agency))
 
 def warmup():
 	"""App Engine warmup handler
