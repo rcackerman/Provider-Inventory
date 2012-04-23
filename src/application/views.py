@@ -25,6 +25,8 @@ def home():
 	return redirect(url_for('list_provs'))
 	
 def list_provs():
+	owner = users.get_current_user()
+#	print owner
 	providers = []
 	provs = Providers.all()
 	for prov in provs:
@@ -48,6 +50,14 @@ def list_addresses(agency):
 			grouped_addrs[elt[0]] = [elt[1]]
 	return grouped_addrs
 
+def list_notes(agency):
+	notes_query = db.Query(ProviderNotes).filter('provider_name =', agency)
+	notes = []
+	for note in notes_query:
+		notes.append(note.provider_notes)
+	return notes
+
+@login_required
 def add_notes(agency):
 	form = ProviderForm()
 	if form.validate_on_submit():
@@ -60,7 +70,7 @@ def add_notes(agency):
  			return redirect(url_for('list_provs'))
  		except:
 	 		return redirect(url_for('list_provs'))
-	return render_template('provider_notes.html', form=form, programs=list_addresses(agency), pname=agency)
+	return render_template('provider_notes.html', form=form, programs=list_addresses(agency), pname=agency, notes=list_notes(agency))
 
 def warmup():
 	"""App Engine warmup handler

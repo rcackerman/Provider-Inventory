@@ -16,11 +16,15 @@
 {% endfor %}
 </table>
 
+{% for note in notes %}
+<p>{{ note }}</p>
+<p>{{ date }}</p>
+{% endfor %}
 
 <form method="post" action="{{ url_for('add_notes', agency=pname) }}">
 	{{ form.hidden_tag() }}
         <p>{{ form.providerNote.label }}<p>
-        <p>{{ form.providerNote }}</p>
+        <p>{{ form.providerNote(content=form.providerNote.data) }}</p>
     <p>
         <button type="submit">Save notes</button>
     <a href="{{ url_for('list_provs') }}">Cancel</a>
