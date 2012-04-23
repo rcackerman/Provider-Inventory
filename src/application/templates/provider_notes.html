@@ -3,9 +3,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>PyPI Mirror Status</title>
+    <title>{{pname}} Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Here is a list of the PyPI mirrors and the last time they were updated">
+    <meta name="description" content="Provider inventory survey tool">
     <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
     <!-- styles -->
@@ -33,51 +33,57 @@
        	<div class="page-header"> <h1>{{ pname }}</h1> </div>
        	
 
-<table class="table table-bordered table-striped">
-{% for address, prs in programs.iteritems() %}
-	<thead>
-		<tr>
-			<th colspan="4"><h3>{{address}}</h3></th>
-		</tr>
-		<tr>
-			<th width="10"></th>
-			<th>Program Name</th>
-			<th>Program Type</th>
-			<th>Phone</th>
-		</tr>
-	</thead>
-{% for pr in prs %}
-<tr>
-	<td></td>
-	<td>{{ pr['name'] }}</td>
-	<td>{{ pr['type'] }}</td>
-	<td>{{ pr['phone'] }}</td>
-</tr>
-{% endfor %}
-{% endfor %}
-</table>
+			<table class="table table-bordered table-striped">
+			{% for address, prs in programs.iteritems() %}
+				<thead>
+					<tr>
+						<th colspan="4"><h3>{{address}}</h3></th>
+					</tr>
+					<tr>
+						<th width="10"></th>
+						<th>Program Name</th>
+						<th>Program Type</th>
+						<th>Phone</th>
+					</tr>
+				</thead>
+			{% for pr in prs %}
+			<tr>
+				<td></td>
+				<td>{{ pr['name'] }}</td>
+				<td>{{ pr['type'] }}</td>
+				<td>{{ pr['phone'] }}</td>
+			</tr>
+			{% endfor %}
+			{% endfor %}
+			</table>
+			
+			{% for note in notes %}
+			<p>{{ note }}</p>
+			<p>{{ date }}</p>
+			{% endfor %}
+			
+			<form method="post" action="{{ url_for('add_notes', agency=pname) }}">
+				{{ form.hidden_tag() }}
+				{{ form.provider_notes.label }}
+				{{ form.provider_notes(cols='20', rows='100', height='100', class_="textarea span9") }}
+				<p>
+					<button type="submit">Save notes</button>
+				<a href="{{ url_for('list_provs') }}">Cancel</a>
+				</p>
+				
+			{% if form.errors %}
+				<ul class="errors">
+					{% for field_name, field_errors in form.errors|dictsort if field_errors %}
+						{% for error in field_errors %}
+							<li>{{ form[field_name].label }}: {{ error }}</li>
+						{% endfor %}
+					{% endfor %}
+				</ul>
+			{% endif %}
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
 
-{% for note in notes %}
-<p>{{ note }}</p>
-<p>{{ date }}</p>
-{% endfor %}
-
-<form method="post" action="{{ url_for('add_notes', agency=pname) }}">
-	{{ form.hidden_tag() }}
-    {{ form.provider_notes.label }}
-    {{ form.provider_notes(cols='20', rows='100', height='100', class_="textarea span9") }}
-    <p>
-        <button type="submit">Save notes</button>
-    <a href="{{ url_for('list_provs') }}">Cancel</a>
-    </p>
-    
-{% if form.errors %}
-    <ul class="errors">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-    </ul>
-{% endif %}
-</form>

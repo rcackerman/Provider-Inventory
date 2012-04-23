@@ -39,7 +39,7 @@ def list_provs():
 			pass
 		else:
 			providers.append(prov.pAgency)
-	return render_template('providers.html', providers=providers)
+	return render_template('providers.html', providers=providers) #, owner=owner
 	
 	
 def list_addresses(agency):
