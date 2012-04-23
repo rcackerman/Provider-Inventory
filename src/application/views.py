@@ -36,12 +36,12 @@ def list_provs():
 	
 	
 def list_addresses(agency):
-	addrs = []
+	address_program_pairs = []
 	addresses = db.Query(Providers).filter('pAgency =', agency).order('pAddress')
 	for addr in addresses:
-		addrs.append((addr.pAddress, addr.programName))
+		address_program_pairs.append((addr.pAddress, {'name' : addr.programName , 'type' : addr.pType , 'phone' : addr.pPhone}))
 	grouped_addrs = {}
-	for elt in addrs: 
+	for elt in address_program_pairs: 
 		if elt[0] in grouped_addrs:
 			grouped_addrs[elt[0]].append(elt[1])
 		else:
@@ -60,8 +60,7 @@ def add_notes(agency):
  			return redirect(url_for('list_provs'))
  		except:
 	 		return redirect(url_for('list_provs'))
-	return render_template('provider_notes.html', form=form, grouped_addrs=list_addresses(agency), pname=agency)
-
+	return render_template('provider_notes.html', form=form, programs=list_addresses(agency), pname=agency)
 
 def warmup():
 	"""App Engine warmup handler
