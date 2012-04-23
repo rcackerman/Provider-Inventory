@@ -29,10 +29,11 @@ def home():
 	return redirect(url_for('list_provs'))
 	
 def list_provs():
-	owner = users.get_current_user()
+#	owner = users.get_current_user()
 #	print owner
 	providers = []
 	provs = Providers.all().order('pAgency')
+#	provs = db.Query(Providers).filter('Owner =', owner).order('pAgency')
 	for prov in provs:
 		if prov.pAgency in providers:
 			pass
