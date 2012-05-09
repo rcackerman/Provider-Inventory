@@ -36,6 +36,6 @@ class Providers(db.Model):
 class ProviderNotes(db.Model):
 	"""Provider Notes will be captured in this database"""
 	provider_name = db.StringProperty()
-	provider_notes = db.StringProperty()
+	provider_notes = db.TextProperty()
 	date = db.DateTimeProperty(auto_now_add=True)
 	
